@@ -1,9 +1,7 @@
-
 /******************** Parameters *****************************************************************/
 final int NUM_POINTS = 30;                 // Number of Point
 final int WIDTH = 750;                     // Width of window size
 final int HEIGHT = 750;                    // Height of window size
-final int EXPANSION_RATE = 3;              // Expansion rate of Point
 final float RESTITUTION_COEFFICIENT = 0.8; // Restitution coefficient when the point hits the wall
 final float MAX_SPEED = 9;                 // Max speed of Point
 final float FRICTION_COEFFICIENT = 0.003;  // Coefficient of friction
@@ -37,80 +35,6 @@ void draw()
   mesh.drawShape();
   mesh.updatePoint();
 }
-
-
-/* Point Manager */
-class PointM
-{
-  float x, y;
-  float distance;
-  Point[] Points = new Point[NUM_POINTS];
-
-  PointM(int num)
-  {
-    for(int i = 0; i < num; i++)
-    {
-      Points[i] = new Point();
-    }
-  }
-
-  /* draw all the Points and connecting lines between them. */
-  void drawShape()
-  {
-
-    for(int i = 0; i < NUM_POINTS; i++)
-    {
-      float alpha = 0;  // Alpha of Point
-
-      // From the distances between the Points, calculate transparency of each line
-      // connecting them and the transparency alpha of the Points.
-      // j is initialized with i to reduce cpu usage and to make it look good.
-      for(int j = i; j < NUM_POINTS; j++)
-      {
-        if(i == j) continue;
-        distance = PointDistance(Points[i], Points[j]);
-        if(distance > 255)  continue;  // reduce CPU usage
-
-        stroke(0, (255 - distance));  // set the  transparency of the lines connecting the Points
-        line(Points[i].position.x, Points[i].position.y,
-                Points[j].position.x, Points[j].position.y);
-        alpha += 255 - distance;
-      }
-
-      alpha /= 60;  // adjust alpha
-      fill(0, alpha + 10);     // Inner transparency
-
-      stroke(0, alpha);        // Outline transparency
-      float radius = alpha * EXPANSION_RATE;
-      ellipse(Points[i].position.x, Points[i].position.y, radius, radius);
-    }
-  }
-
-  /* update all Points position */
-  void updatePoint()
-  {
-    for(int k = 0; k < NUM_POINTS; k++)
-    {
-      Points[k].updateMe();
-    }
-  }
-
-  /* return distance between 2 Points. */
-  float PointDistance(Point a, Point b)
-  {
-    return sqrt(sq(a.position.x - b.position.x) + sq(a.position.y - b.position.y));
-  }
-
-  /* when mouse is clicked */
-  void press()
-  {
-    for(int i = 0; i < NUM_POINTS; i++)
-    {
-      Points[i].inhale();      // inhale Points
-    }
-  }
-}
-
 
 /* Point class */
 class Point
@@ -148,7 +72,7 @@ class Point
       speed.x *= -RESTITUTION_COEFFICIENT;;
 
     }
-
+    
     if(position.y > height)
     {
       position.y = height;
@@ -159,7 +83,7 @@ class Point
       position.y = 0;
       speed.y *= -RESTITUTION_COEFFICIENT;
     }
-    
+
     position = PVector.add(position, speed);  // Add moving distance
   }
 
