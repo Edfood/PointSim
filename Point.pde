@@ -57,8 +57,8 @@ class Point
     position = PVector.add(position, speed);  // Add moving distance
   }
 
-  /* Inhale Point when mouse clicked */
-  void inhale()
+  /* Force Point when mouse clicked */
+  void force()
   {
     float distx = mouseX - position.x;
     float disty = mouseY - position.y;

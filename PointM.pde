@@ -68,11 +68,11 @@ class PointM
   }
 
   /* when mouse is clicked */
-  void press()
+  void inhale()
   {
     for(int i = 0; i < n; i++)
     {
-      Points[i].inhale();      // inhale Points
+      Points[i].force();      // inhale Points
     }
   }
 }

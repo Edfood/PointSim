@@ -17,7 +17,7 @@ void setup()
   background(255);
   smooth();
   strokeWeight(0.5);
-  mesh = new PointM(NUM_POINTS); // If it is not defined here, width and height are not initialized.
+  pointM = new PointM(NUM_POINTS); // If it is not defined here, width and height are not initialized.
 }
 
 
@@ -26,8 +26,8 @@ void draw()
   background(255);
   if(mousePressed)
   {
-    mesh.press();
+    pointM.inhale();
   }
-  mesh.drawShape();
-  mesh.updatePoint();
+  pointM.drawShape();
+  pointM.updatePoint();
 }
