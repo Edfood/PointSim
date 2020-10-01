@@ -11,20 +11,19 @@ final float INHALATION_STRENGTH = 0.2;     // Strength of inhalation on click
 final int INHALATION_RADIUS = 450;         // Inhalation radius
 /************************************************************************************************/
 
-
-PointM mesh = new PointM();
-
 void settings()
 {
   size(WIDTH, HEIGHT);
 }
 
+PointM mesh;
 void setup()
 {
   fill(155, 100);
   background(255);
   smooth();
   strokeWeight(0.5);
+  mesh = new PointM(NUM_POINTS); // If it is not defined here, width and height are not initialized.
 }
 
 
@@ -43,16 +42,14 @@ void draw()
 /* Point Manager */
 class PointM
 {
-  float centX = WIDTH / 2;
-  float centY = HEIGHT / 2;
   float x, y;
   float rnd;
   float distance;
   Point[] Points = new Point[NUM_POINTS];
 
-  PointM()
+  PointM(int num)
   {
-    for(int i = 0; i < NUM_POINTS; i++)
+    for(int i = 0; i < num; i++)
     {
       Points[i] = new Point();
     }
@@ -68,15 +65,16 @@ class PointM
 
       // From the distances between the Points, calculate transparency of each line
       // connecting them and the transparency alpha of the Points.
+      // j is initialized with i to reduce cpu usage and to make it look good.
       for(int j = i; j < NUM_POINTS; j++)
       {
         if(i == j) continue;
         distance = PointDistance(Points[i], Points[j]);
-        if(distance > 255)  continue;
-
+        if(distance > 255)  continue;  // reduce CPU usage
 
         stroke(0, (255 - distance));  // set the  transparency of the lines connecting the Points
-        line(Points[i].position.x, Points[i].position.y, Points[j].position.x, Points[j].position.y);
+        line(Points[i].position.x, Points[i].position.y,
+                Points[j].position.x, Points[j].position.y);
         alpha += 255 - distance;
       }
 
@@ -125,8 +123,8 @@ class Point
 
   Point()
   {
-    centX = WIDTH / 2 + random(WIDTH / 3) - WIDTH / 6;
-    centY = HEIGHT / 2 + random(HEIGHT / 3) - HEIGHT / 6;
+    centX = width / 2 + random(width / 3) - width / 6;
+    centY = height / 2 + random(height / 3) - height / 6;
     position = new PVector(centX + random(50) - 25, centY + random(50) - 25);
     speed = new PVector(0, 0);
     speed.x = random(3) - 1.5;
@@ -143,9 +141,9 @@ class Point
     if(abs(speed.y) > MAX_SPEED) speed.y = (speed.y > 0 ? MAX_SPEED : -MAX_SPEED);
 
     /* Restrict the Point from going outside the window. */
-    if(position.x > WIDTH)
+    if(position.x > width)
     {
-      position.x = WIDTH;
+      position.x = width;
       speed.x *= -RESTITUTION_COEFFICIENT;
     }
     else if(position.x < 0)
@@ -154,9 +152,9 @@ class Point
       speed.x *= -RESTITUTION_COEFFICIENT;;
 
     }
-    if(position.y > HEIGHT)
+    if(position.y > height)
     {
-      position.y = HEIGHT;
+      position.y = height;
       speed.y *= -RESTITUTION_COEFFICIENT;
     }
     else if(position.y < 0)
