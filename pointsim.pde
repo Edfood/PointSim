@@ -43,7 +43,6 @@ void draw()
 class PointM
 {
   float x, y;
-  float rnd;
   float distance;
   Point[] Points = new Point[NUM_POINTS];
 
@@ -116,15 +115,13 @@ class PointM
 /* Point class */
 class Point
 {
-  float centX;
-  float centY;
   PVector position;
   PVector speed;
 
   Point()
   {
-    centX = width / 2 + random(width / 3) - width / 6;
-    centY = height / 2 + random(height / 3) - height / 6;
+    float centX = width / 2 + random(width / 3) - width / 6;
+    float centY = height / 2 + random(height / 3) - height / 6;
     position = new PVector(centX + random(50) - 25, centY + random(50) - 25);
     speed = new PVector(0, 0);
     speed.x = random(3) - 1.5;
@@ -133,7 +130,6 @@ class Point
 
   void updateMe()
   {
-    
     speed.x -= speed.x > 0 ? FRICTION_COEFFICIENT : -FRICTION_COEFFICIENT;
     speed.y -= speed.y > 0 ? FRICTION_COEFFICIENT : -FRICTION_COEFFICIENT;
     /* Restriction of Point speed */
@@ -152,6 +148,7 @@ class Point
       speed.x *= -RESTITUTION_COEFFICIENT;;
 
     }
+
     if(position.y > height)
     {
       position.y = height;
@@ -162,20 +159,20 @@ class Point
       position.y = 0;
       speed.y *= -RESTITUTION_COEFFICIENT;
     }
+    
     position = PVector.add(position, speed);  // Add moving distance
   }
 
   /* Inhale Point when mouse clicked */
   void inhale()
   {
-    float tempx, tempy;
     float distx = mouseX - position.x;
     float disty = mouseY - position.y;
     
     float distance = sqrt(sq(mouseX - position.x) + sq(mouseY - position.y));
     if (distance < 0.01) distance = 0.01;
-    tempx = (distx / (distance))  / (distance / INHALATION_RADIUS);
-    tempy = (disty / (distance))  / (distance / INHALATION_RADIUS);
+    float tempx = (distx / (distance))  / (distance / INHALATION_RADIUS);
+    float tempy = (disty / (distance))  / (distance / INHALATION_RADIUS);
     
     speed.x += INHALATION_STRENGTH * tempx * random(1);
     speed.y += INHALATION_STRENGTH * tempy * random(1);
