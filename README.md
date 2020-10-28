@@ -1,14 +1,14 @@
 # PointSim
 インタラクティブに遊べるProcessingのゲームです。
 
-[ここ](https://www.openprocessing.org/sketch/972725)で遊べます。
-
 拡張しやすいように実装してあるので、色々コードをいじって遊べると思います。
+
+遊べる場所: https://www.openprocessing.org/sketch/972725
 
 ## 操作方法
 マウス左クリック: 吸い込み
 
-##  少し詳しい説明
+##  ゲームの説明
 画面上に複数のPoint(黒い点)を描画して、視覚的に楽しめるゲームです。
 
 Point同士は距離に応じて線で結ばれます。
